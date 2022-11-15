@@ -1,0 +1,4 @@
+module Mead
+  class Engine < ::Rails::Engine
+  end
+end
