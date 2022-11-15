@@ -5,22 +5,22 @@ module ActionView
 
       # Creates a honeypot on forms that will be appropriately namespaced
       #
-      # Examples
+      # ==== Examples
       #
-      # = mead_honeypot(:text_field, :user)
-      # # <input type="text" name="user[honeypot]" id=user_honeypot">
+      #   mead_honeypot(:text_field, :user)
+      #   # => <input type="text" name="user[honeypot]" id=user_honeypot">
       #
-      # = mead_honeypot(:text_field, :user) do |honeypot, name|
-      #   = label(:user, name)
-      #   = honeypot
-      # # <label for="name">
-      # # <input type="text" name="user[name]" id="user_name">
-      def mead_honeypot(as_tag, object_name, name = nil, options = {}, &block)
+      #   mead_honeypot(:text_field, :user) do |honeypot, name|
+      #     label(:user, name)
+      #     honeypot
+      #   # => <label for="name">
+      #   #    <input type="text" name="user[name]" id="user_name">
+      def mead_honeypot(form_tag, object_name, name = nil, options = {}, &block)
         defaults = {value: nil}.merge(mead_input_attributes).merge(options)
         name ||= mead_field_name
-        as_tag = :text_field unless [:text_field, :text_area].include?(as_tag)
+        form_tag = :text_field unless [:text_field, :text_area].include?(form_tag)
 
-        html = tag_class(as_tag).new(object_name, name, self, defaults).render
+        html = tag_class(form_tag).new(object_name, name, self, defaults).render
 
         if block_given?
           capture(html, name, &block)
@@ -31,18 +31,17 @@ module ActionView
 
       # Creates an obfuscation on forms that will be appropriately namespaced
       #
-      # Examples
+      # ==== Examples
       #
-      # = mead_obfuscate(:checkbox, :user, :active)
-      # # <input type="checkbox" name="user[obfuscated]" id="user_obfuscated">
+      #   mead_obfuscate(:checkbox, :user, :active)
+      #   # => <input type="checkbox" name="user[foo]" id="user_foo">
       #
-      # = mead_obfuscate(:checkbox, :user, :active) do |html, obfus_name, real_name|
-      #   label(:user, obfus_name, real_name)
-      #   html
-      # # Given that obfus_name = 'qwerty'
-      # # <label for="user_qwerty">Active</label>
-      # # <input type="hidden" value="0" name="user[qwerty]" id="user_qwerty">
-      # # <input type="checkbox" value="1" name="user[qwerty]" id="user_qwerty">
+      #   mead_obfuscate(:checkbox, :user, :active) do |html, obfus_name, real_name|
+      #     label(:user, obfus_name, real_name)
+      #     html
+      #   # => <label for="user_foo">Active</label>
+      #   #    <input type="hidden" value="0" name="user[foo]" id="user_foo">
+      #   #    <input type="checkbox" value="1" name="user[foo]" id="user_foo">
       def mead_obfuscate(input_type, object_name, method, options = {}, &block)
         real_name = method.to_s
         obfuscated_name = mead_obfuscate_field(real_name)
@@ -118,12 +117,12 @@ module ActionView
     end
 
     class FormBuilder
-      def mead_obfuscate(as_tag, method, options = {}, &block)
-        @template.public_send(:mead_obfuscate, as_tag, @object_name, method, options, &block)
+      def mead_obfuscate(form_tag, method, options = {}, &block)
+        @template.public_send(:mead_obfuscate, form_tag, @object_name, method, options, &block)
       end
 
-      def mead_honeypot(as_tag = nil, name = nil, options = {}, &block)
-        @template.public_send(:mead_honeypot, as_tag, @object_name, name, options, &block)
+      def mead_honeypot(form_tag = nil, name = nil, options = {}, &block)
+        @template.public_send(:mead_honeypot, form_tag, @object_name, name, options, &block)
       end
     end
   end
