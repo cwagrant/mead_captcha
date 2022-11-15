@@ -2,37 +2,56 @@
 
 Mead is a simple honeypot gem and field name obfuscator.  It allows you to add a honeypot to any form as easily as calling `honeypot_field_tag`.
 
-In addition to honeypots you can obfuscate field names by including `Mead::Obfuscator` in your controller and then masking the fields in your view like so
-
-```haml
-  = text_field_tag mask_field(:first_name), @user.first_name, placeholder: 'First Name', required: true
+# Usage
+### Honeypots
+Generating a simple honeypot
+```ruby
+ honeypot_field_tag
+  
+ # => <div>
+ #      <label for="pseudo_random_field_name">
+ #      <input type="text" name="pseudo_random_field_name" id="pseudo_random_field_name">
+ #    </div>
 ```
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/mead`. To experiment with that code, run `bin/console` for an interactive prompt.
+You can also get more creative by using it as a block to generate a content tag and nest your honeypot. This can allow you to make your honeypot blend in as seamlessly as you like to the DOM.
+```ruby
+honeypot_field_tag(:label) do |name|
+  check_box_tag(:do_not_check, name, false, class: 'mead-input-attributes')
+  
+# => <label class="mead-label-attributes">
+#      <input id="name", name="name", type="checkbox", value="false">
+#    </label>
+```
 
-TODO: Delete this and the text above, and describe your gem
+### Obfuscation
+```ruby
+mead_obfuscate_tag(:first_name) do |first_name|
+  label_tag first_name
+  text_field_tag first_name
+  
+# => <label for="obfuscated_first_name">
+#    <input name="obfuscated_fist_name" id="obfuscated_first_name" type="text">
+```
 
-## Installation
-
-Add this line to your application's Gemfile:
+To deobfuscate your params you can call mead_params to get a hash returned of the deobfuscated values.
 
 ```ruby
-gem 'mead'
+def user_params
+  params.
+    require(:user).
+    permit(:first_name, :last_name)
+    .merge(mead_params)
+end
+
+user_params
+# => {first_name: foo, last_name: bar, email: "foo@bar.com"}
 ```
 
-And then execute:
+In addition to the above form tag helpers, Mead also implements these tags as form helpers and form builders as well.
 
-    $ bundle install
 
-Or install it yourself as:
 
-    $ gem install mead
-
-## Usage
-
-TODO: Write usage instructions here
-
-## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
