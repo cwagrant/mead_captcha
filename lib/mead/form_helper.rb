@@ -1,8 +1,6 @@
 module ActionView
   module Helpers
     module FormHelper
-      include Mead::Obfuscator
-
       # Creates a honeypot on forms that will be appropriately namespaced
       #
       # ==== Examples
