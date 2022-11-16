@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
-require_relative "mead/version"
+require_relative 'mead/version'
 require 'mead/form_tag_helper'
 require 'mead/form_helper'
 require 'mead/engine'
+require 'hashie'
 
 class NoAvailableHoneypotFieldNames < StandardError; end
 
@@ -14,28 +15,17 @@ module Mead
     base.send :helper_method, helper_methods
   end
 
-  def honeypot_present?(requires: nil)
-    # Accepts a singular requires or an array of requires to get
-    # into more nested structures - by default we just permit
-    # honeypot params directly
-    #
-    # e.g. requires: [:checkout, :user] is equivalent to calling
-    # params.require(:checkout).require(:user).permit(honeypot_field_names)
+  def honeypot_present?
+    honeypot_params = params.permit!.to_hash
 
-    dirty = params
+    honeypot_params.extend Hashie::Extensions::DeepFind
 
-    if requires.is_a? Array
-      dirty = requires.reduce(params) { |acc, requirement| acc.require(requirement) }
-    elsif requires.present?
-      dirty = dirty.require(requires)
+    honeypot_field_names.each do |honeypot|
+      return true if honeypot_params.deep_find(honeypot).present?
     end
 
-    honeypots = dirty.permit(honeypot_field_names)
-
-    return false if honeypots.nil?
-
-    honeypots.values.any?(&:present?)
-  rescue
+    false
+  rescue StandardError
     false
   end
 
@@ -98,11 +88,12 @@ module Mead
 
   def honeypot_field_names
     %w(
-      comments
       secret
-      full_name
       passphrase
       real_password
+      a_password
+      your_comments
+      a_comment
     )
   end
 

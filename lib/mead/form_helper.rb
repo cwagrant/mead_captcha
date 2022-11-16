@@ -1,7 +1,19 @@
 module ActionView
   module Helpers
     module FormHelper
-      # Creates a honeypot on forms that will be appropriately namespaced
+      # Creates a honeypot on forms that will be appropriately namespaced.
+      #
+      # Returns a FormHelper tag of type +form_tag+ that will be namespaced
+      # via the +object_name+ and that will use the hash of +options+.
+      # Allows you to declare a +name+, or if nil grabs a pseudo-random
+      # name. Also allows you to pass in a hash of +options+
+      # that will be passed to the +form_tag+.
+      # Takes a +form_tag+ as a string or symbol, the +object_name+ as a string
+      # or symbol, a +name+ as a string or symbol, a hash of +options+ that will
+      # be passed to the +form_tag+, and an optional +block+.
+      #
+      # If you pass in a +block+ you will have access to the pre-made tag and the
+      # pseudo-randomly created name.
       #
       # ==== Examples
       #
@@ -27,7 +39,12 @@ module ActionView
         end
       end
 
-      # Creates an obfuscation on forms that will be appropriately namespaced
+      # Creates an obfuscation on forms that will be appropriately namespaced.
+      #
+      # Returns an input tag of type +input_type+ that will get the +method+ value
+      # from the +object_name+ that is passed in. Can alternatively be provided with
+      # a +block+ that will give the user access to a pre-made input tag, the
+      # obfuscated name, and the name of the +method+ that was passed in.
       #
       # ==== Examples
       #
