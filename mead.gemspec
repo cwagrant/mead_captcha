@@ -8,13 +8,11 @@ Gem::Specification.new do |spec|
   spec.authors       = ["cwagrant"]
   spec.email         = ["cwagrant@gmail.com"]
 
-  spec.summary       = "Easy way to add honeypot fields to existing forms."
-  spec.description   = "This description is shorter out of spite."
-  spec.homepage      = "https://github.com/cwagrant/EasyDestroy"
+  spec.summary       = "Makes it easy to add honeypots to your forms and obfuscate your params"
+  spec.description   = "To help with keep the bots at bay this gem helps you easily add honeypots to forms and/or obfuscate your form field names"
+  spec.homepage      = "https://github.com/cwagrant/mead"
   spec.license       = "MIT"
   spec.required_ruby_version = ">= 2.4.0"
-
-  spec.metadata["allowed_push_host"] = "TODO: Set to 'http://mygemserver.com'"
 
   spec.metadata["homepage_uri"] = spec.homepage
   spec.metadata["source_code_uri"] = spec.homepage
@@ -40,6 +38,8 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "railties", [">= 0"]
   spec.add_development_dependency "rspec", "~> 3.0"
   spec.add_development_dependency "rspec-html-matchers"
+
+  spec.add_dependency "hashie"
 
   # For more information and examples about making a new gem, checkout our
   # guide at: https://bundler.io/guides/creating_gem.html

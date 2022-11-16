@@ -2,6 +2,7 @@ PATH
   remote: .
   specs:
     mead (0.1.0)
+      hashie
 
 GEM
   remote: https://rubygems.org/
@@ -73,6 +74,7 @@ GEM
     erubi (1.11.0)
     globalid (1.0.0)
       activesupport (>= 5.0)
+    hashie (5.0.0)
     i18n (1.12.0)
       concurrent-ruby (~> 1.0)
     loofah (2.19.0)
