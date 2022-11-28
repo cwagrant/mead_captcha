@@ -7,6 +7,7 @@ require 'mead/form_helper'
 require 'mead/engine'
 require 'mead/helpers'
 require 'hashie'
+require 'json'
 
 class NoAvailableHoneypotFieldNames < StandardError; end
 
@@ -41,14 +42,9 @@ module Mead
 
     if configuration.protect_controller_actions.present?
       options[:only] = configuration.protect_controller_actions
-    end
-
-    if configuration.ignore_controller_actions.present?
+    elsif configuration.ignore_controller_actions.present?
       options[:except] = configuration.ignore_controller_actions
     end
-
-    puts configuration
-    puts options
 
     options
   end

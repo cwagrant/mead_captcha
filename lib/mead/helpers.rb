@@ -20,26 +20,36 @@ module Mead
       end
 
       false
-    rescue StandardError
+    rescue StandardError => e
       false
     end
 
-    def mead_params(requires: nil)
-      masked = params
+    def mead_params(masked = nil, parameterize: true)
+      masked = if masked.nil?
+                 params.permit!.to_hash
+               elsif masked.is_a?(ActionController::Parameters)
+                 masked.permit!.to_hash
+               else
+                 masked
+               end
 
-      if requires.is_a? Array
-        masked = requires.reduce(params) { |acc, requirement| acc.require(requirement) }
-      elsif requires.present?
-        masked = masked.require(requires)
+      unmasked = {}
+
+      masked.map do |key, value|
+        key = deobfuscate(key)
+        if value.is_a? Hash
+          value = mead_params(value, parameterize: false)
+        elsif value.is_a? Array
+          value = value.flat_map { |v| mead_params(v, parameterize: false) }
+        end
+
+        unmasked[key] = value
       end
 
-      masked.permit!.reduce({}) do |acc, masked_value|
-        decrypted = deobfuscate_value(masked_value.first)
-        next acc if decrypted.nil?
-
-        acc[decrypted] = masked_value.last
-
-        acc
+      if parameterize
+        ActionController::Parameters.new(unmasked)
+      else
+        unmasked
       end
     end
 
@@ -94,45 +104,28 @@ module Mead
 
     def mead_obfuscate_field(name)
       real_name = extract_name(name.to_s)
-      encrypted = obfuscate_value(real_name)
+      encrypted = obfuscate(real_name)
 
       name.to_s.gsub(/#{real_name}/, encrypted)
     end
 
     private
 
-    def obfuscate_value(value)
+    def obfuscate(value)
       hash = {value: value, random: SecureRandom.hex(12)}
-      Base64.urlsafe_encode64(JSON.dump(hash))
+      Base64.urlsafe_encode64(JSON.dump(hash)).tr('=', '')
     end
 
-    def deobfuscate_value(value)
+    def deobfuscate(value)
       hash = JSON.load(Base64.urlsafe_decode64(value))
       hash['value']
-    rescue
-      nil
+    rescue JSON::ParserError, ArgumentError
+      value
     end
 
     def extract_name(name)
       real_name = name.scan(/\[[^\[\]]+\]/).last || name
       real_name.tr('[]', '')
-    end
-
-    def self.protect_controller_actions
-      options = {}
-
-      if configuration.protect_controller_actions.present?
-        options[:only] = configuration.protect_controller_actions
-      end
-
-      if configuration.ignore_controller_actions.present?
-        options[:except] = configuration.ignore_controller_actions
-      end
-
-      puts configuration
-      puts options
-
-      options
     end
   end
 end
