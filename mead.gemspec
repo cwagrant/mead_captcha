@@ -3,7 +3,7 @@
 require_relative "lib/mead/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "mead"
+  spec.name          = "mead-captcha"
   spec.version       = Mead::VERSION
   spec.authors       = ["cwagrant"]
   spec.email         = ["cwagrant@gmail.com"]

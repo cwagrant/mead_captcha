@@ -49,3 +49,5 @@ module Mead
     options
   end
 end
+
+ActionController::Base.send(:include, Mead) if defined?(ActionController::Base)
