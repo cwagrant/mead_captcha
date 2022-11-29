@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require_relative "lib/mead/version"
+require_relative "lib/mead_captcha/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "mead-captcha"
-  spec.version       = Mead::VERSION
+  spec.name          = "mead_captcha"
+  spec.version       = MeadCaptcha::VERSION
   spec.authors       = ["cwagrant"]
   spec.email         = ["cwagrant@gmail.com"]
 

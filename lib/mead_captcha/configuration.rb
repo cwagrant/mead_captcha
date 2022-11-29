@@ -1,4 +1,4 @@
-module Mead
+module MeadCaptcha
   class Configuration
     attr_accessor :protect_controller_actions, :ignore_controller_actions
 

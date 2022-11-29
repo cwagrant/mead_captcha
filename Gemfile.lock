@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    mead (0.1.1)
+    mead_captcha (0.1.2)
       hashie
 
 GEM
@@ -167,7 +167,7 @@ PLATFORMS
 
 DEPENDENCIES
   actionview
-  mead!
+  mead_captcha!
   pry
   rails (> 4.0)
   railties

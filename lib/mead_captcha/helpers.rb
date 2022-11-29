@@ -1,4 +1,4 @@
-module Mead
+module MeadCaptcha
   module Helpers
     def self.included(base)
       helper_methods = self.protected_instance_methods
@@ -131,4 +131,4 @@ module Mead
 end
 
 # This will give access to the views/tags to any of the above needed public/protected methods.
-ActionController::Base.send(:include, Mead::Helpers) if defined?(ActionController::Base)
+ActionController::Base.send(:include, MeadCaptcha::Helpers) if defined?(ActionController::Base)

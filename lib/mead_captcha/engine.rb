@@ -1,4 +1,4 @@
-module Mead
+module MeadCaptcha
   class Engine < ::Rails::Engine
   end
 end

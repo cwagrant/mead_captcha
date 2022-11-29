@@ -6,7 +6,7 @@ require 'active_support'
 require 'action_view'
 require 'action_controller'
 require 'rspec-html-matchers'
-require "mead"
+require "mead_captcha"
 
 # Requires supporting files with custom matchers and macros, etc,
 # in ./support/ and its subdirectories.
@@ -29,7 +29,7 @@ RSpec.configure do |config|
 end
 
 class TestController < ActionController::Base
-  include Mead
+  include MeadCaptcha
   def index; end
 end
 

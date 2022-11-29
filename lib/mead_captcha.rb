@@ -1,17 +1,17 @@
 # frozen_string_literal: true
 
-require 'mead/configuration'
-require_relative 'mead/version'
-require 'mead/form_tag_helper'
-require 'mead/form_helper'
-require 'mead/engine'
-require 'mead/helpers'
+require 'mead_captcha/configuration'
+require_relative 'mead_captcha/version'
+require 'mead_captcha/form_tag_helper'
+require 'mead_captcha/form_helper'
+require 'mead_captcha/engine'
+require 'mead_captcha/helpers'
 require 'hashie'
 require 'json'
 
 class NoAvailableHoneypotFieldNames < StandardError; end
 
-module Mead
+module MeadCaptcha
   class << self
     attr_accessor :configuration
   end
@@ -50,4 +50,4 @@ module Mead
   end
 end
 
-ActionController::Base.send(:include, Mead) if defined?(ActionController::Base)
+ActionController::Base.send(:include, MeadCaptcha) if defined?(ActionController::Base)

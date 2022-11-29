@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 require 'action_controller'
 
-RSpec.describe Mead do
+RSpec.describe MeadCaptcha do
   include RSpecHtmlMatchers
 
   it "has a version number" do
-    expect(Mead::VERSION).not_to be nil
+    expect(MeadCaptcha::VERSION).not_to be nil
   end
 
   context :helpers do
