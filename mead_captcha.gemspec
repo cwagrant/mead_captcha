@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = "Makes it easy to add honeypots to your forms and obfuscate your params"
   spec.description   = "To help with keep the bots at bay this gem helps you easily add honeypots to forms and/or obfuscate your form field names"
-  spec.homepage      = "https://github.com/cwagrant/mead"
+  spec.homepage      = "https://github.com/cwagrant/mead_captcha"
   spec.license       = "MIT"
   spec.required_ruby_version = ">= 2.4.0"
 
