@@ -5,6 +5,7 @@ require 'rails'
 require 'active_support'
 require 'action_view'
 require 'action_controller'
+require 'active_record'
 require 'rspec-html-matchers'
 require "mead_captcha"
 
@@ -39,5 +40,9 @@ class TestView < ActionView::Base
   def initialize(controller_path = nil, action = nil)
     @controller = TestController.new
   end
+end
+
+class TestWidget
+  attr_accessor :foo
 end
 

@@ -42,6 +42,20 @@ RSpec.describe MeadCaptcha do
         expect(html).to have_tag("label[for=#{@helpers.mead_field_name}]")
       end
     end
+
+    describe :mead_obfuscate do
+      let(:widget) { double }
+
+      before do
+        allow(widget).to receive(:foo).and_return('bar')
+      end
+
+      it 'creates an obfuscated field' do
+        html = @helpers.mead_obfuscate(:text_box, :widget, :foo )
+        expect(html).to have_tag("input[type=text_box]")
+        expect(html).to have_tag("input[id^=widget]")
+      end
+    end
   end
 end
 
