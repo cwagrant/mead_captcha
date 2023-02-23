@@ -30,17 +30,15 @@ Gem::Specification.new do |spec|
   # Uncomment to register a new dependency of your gem
   # spec.add_dependency "example-gem", "~> 1.0"
   #
-  spec.add_development_dependency "actionview"
-  spec.add_development_dependency "rake", "~> 13.0"
-  spec.add_development_dependency "rails", ">4.0"
-  spec.add_development_dependency "rspec-rails"
-  spec.add_development_dependency "pry"
-  spec.add_development_dependency "railties", [">= 0"]
-  spec.add_development_dependency "rspec", "~> 3.0"
-  spec.add_development_dependency "rspec-html-matchers"
-
+  spec.add_dependency "actionview", "> 5.2", "<= 7.0"
   spec.add_dependency "hashie"
 
-  # For more information and examples about making a new gem, checkout our
-  # guide at: https://bundler.io/guides/creating_gem.html
+  spec.add_development_dependency "rake", "~> 13.0"
+  spec.add_development_dependency "rails", "> 5.2", "<= 7.0"
+  spec.add_development_dependency "rspec-rails"
+  spec.add_development_dependency "pry"
+  spec.add_development_dependency "railties", ">= 5.2"
+  spec.add_development_dependency "rspec", "~> 3.0"
+  spec.add_development_dependency "rspec-html-matchers"
 end
+
