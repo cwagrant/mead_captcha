@@ -22,6 +22,8 @@ module MeadCaptcha
 
   def self.configure
     yield(configuration)
+
+    ActionController::Base.send(:include, MeadCaptcha) if defined?(ActionController::Base)
   end
 
   def self.included(base)
@@ -30,7 +32,7 @@ module MeadCaptcha
     base.send :helper_method, helper_methods
 
     if base.respond_to? :before_action
-      base.send :prepend_before_action, :on_honeypot_failure, self.protect_controller_actions
+      base.send :prepend_before_action, :on_honeypot_failure, **self.protect_controller_actions
 
     elsif base.respond_to? :before_filter
       base.send :prepend_before_filter, :on_honeypot_failure, self.protect_controller_actions
@@ -49,5 +51,3 @@ module MeadCaptcha
     options
   end
 end
-
-ActionController::Base.send(:include, MeadCaptcha) if defined?(ActionController::Base)
