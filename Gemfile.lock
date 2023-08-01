@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    mead_captcha (1.0.0)
+    mead_captcha (1.0.1)
       actionview (> 5.2, <= 7.0)
       hashie
 
