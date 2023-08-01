@@ -18,6 +18,7 @@ blocks:
             - checkout
             - sem-version ruby 2.6.5
             - cache restore
+            - 'gem install bundler:2.2.19'
             - bundle install --deployment --path vendor/bundle
             - cache store
             - bundle exec rspec
